@@ -19,10 +19,11 @@ Features:
 Requirements
 ------------
 - python-twitter
+- nltk
 - python 2
 
 For the (Debian based) lazies:
 ```bash
 sudo apt-get install python python-pip
-sudo pip install python-twitter
+sudo pip install python-twitter nltk
 ```
