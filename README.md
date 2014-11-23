@@ -15,3 +15,12 @@ Features:
 - Fair and decentralized identification algorithm 
 - Ranking system for efficient recognition of logical fallacies
 - Useful, but yet to be thought of ways of exporting and viewing data
+
+Requirements
+------------
+- python-twitter
+- python 2
+
+For the (Debian based) lazies:
+sudo apt-get install python python-pip
+sudo pip install python-twitter
