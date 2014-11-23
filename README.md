@@ -10,5 +10,8 @@ punished for, this script attempts to allow it's users to identify and
 aggregate these radicals for the purpose of mass ridicule and
 the collection of such humorously idiotic thoughts.
 
-Features:
----------
+Features: 
+--------- 
+- Fair and decentralized identification algorithm 
+- Ranking system for efficient recognition of logical fallacies
+- Useful, but yet to be thought of ways of exporting and viewing data
