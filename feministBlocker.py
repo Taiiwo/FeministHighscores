@@ -11,3 +11,24 @@
 # aggregate these radicals for the purpose of mass ridicule and
 # identification of such humorously idiotic thoughts.
 
+import twitter
+import json
+
+# grab twitter auth details and use them to initialize the twitter API wrapper
+twitterAuth = json.loads(open('./include', 'r').read())
+twApi = twitter.Api(
+		consumer_key =			twitterAuth['consumerKey'		],
+		consumer_secret =		twitterAuth['consumerSecret'	],
+		access_token_key =		twitterAuth['accessTokenKey'	],
+		access_token_secret =	twitterAuth['accessTokenSecret'	])
+
+# hashtags to search
+hashtags = ["feminism",]
+# search for tweets using sexist hashtags
+for hashtag in hashtags:
+	
+# identify the emotional intent of the tweet
+# if the tweet is retarded
+	# compare with other tweets by the user
+	# give the user a score based on their tweets
+	# put the user on the ignorance high scores list
