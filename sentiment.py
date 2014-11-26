@@ -20,7 +20,7 @@ class sentimentAnalyser():
 		
 	def classifySentiment(self, words, happy_log_probs, sad_log_probs):
 		# Split string into list
-		words = words.split()
+		words = words.lower().split()
 		# Get the log-probability of each word under each sentiment
 		happy_probs = [happy_log_probs[word] for word in words if word in happy_log_probs]
 		sad_probs = [sad_log_probs[word] for word in words if word in sad_log_probs]
