@@ -1,4 +1,4 @@
-FeministBlocker
+FeministHighscores
 ===============
 Description
 -----------
