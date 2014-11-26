@@ -31,6 +31,7 @@ analyser = sentiment.sentimentAnalyser()
 goodThings = ["gamergate", "notyourshield"]
 badThings = ["feminism",]
 tenses = [goodThings, badThings]
+turn = ["+","-"]
 highScores = []
 scannedUsers = []
 scannedTweets = []
@@ -50,7 +51,7 @@ for index, tense in enumerate(tenses):
 				scannedTweets.append(tweet.text)
 				# identify the emotional intent of the tweet
 				score = analyser.happyScore(tweet.text)
-				if debugging == True: print "[ ] " + tweet.text + " by " + tweet.user.name + " scored " + str(score)
+				if debugging == True: print "[ ] " + tweet.text.replace('\n', '') + " by " + tweet.user.name + " scored " + turn[index] + str(score)
 				# if the tweet is about negative about a good topic or positive about a bad topic
 				if index == 0 and score < 0 or index == 1 and score > 0:
 					if debugging == True: print "[+] "+ tweet.user.name +" may be retarded. Scanning user"
@@ -63,26 +64,26 @@ for index, tense in enumerate(tenses):
 					# iterate through all their tweets
 					for userTweet in userTweets:
 						# for each tense
-						for index, tense in enumerate(tenses):
+						for index1, tense1 in enumerate(tenses):
 							# for each term in the tense
-							for term in tense:
+							for term1 in tense1:
 								# if the user is tweeting about the term
-								if term in userTweet.text:
+								if term1 in userTweet.text:
 									numScanned += 1
 									# identify the emotional intent of the tweet
 									score = analyser.happyScore(userTweet.text)
-									if debugging == True: print "\t[ ] " + userTweet.text + " by " + userTweet.user.name + " scored " + str(score)
+									if debugging == True: print "\t[ ] " + userTweet.text.replace('\n', '') + " by " + userTweet.user.name + " scored " + turn[index1] + str(score)
 									# if the tweet is about negative about a good topic or positive about a bad topic
-									if index == 0 and score < 0 or index == 1 and score > 0:
+									if index1 == 0 and score < 0 or index1 == 1 and score > 0:
 										# the tweet is probably retarded.
 										# add some points to their score
-										userScore += abs(score)
+										userScore += score
 					# put the user on the ignorance high scores list
 					if numScanned <= 0:
 						if debugging == True: print "Couldn't find any more relevant tweets by that user."
 					else:
-						# divide the tweets between the number of tweets scanned
-						userScore = userScore / numScanned
+						# divide the tweets between the number of tweets scanned - On second thought, maybe not.
+						# userScore = userScore / numScanned
 						# make sure we aren't scanning the same person multiple times
 						scannedUsers.append(tweet.user.name)
 						# actually add them to the high scores
