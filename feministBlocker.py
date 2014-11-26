@@ -12,23 +12,81 @@
 # identification of such humorously idiotic thoughts.
 
 import twitter
+import nltk
 import json
+import sentiment
 
-# grab twitter auth details and use them to initialize the twitter API wrapper
-twitterAuth = json.loads(open('./include', 'r').read())
+# grab twitter auth details and use them to initialise the twitter API wrapper
+twitterAuth = json.loads(open('./auth.include', 'r').read())
 twApi = twitter.Api(
 		consumer_key =			twitterAuth['consumerKey'		],
 		consumer_secret =		twitterAuth['consumerSecret'	],
 		access_token_key =		twitterAuth['accessTokenKey'	],
 		access_token_secret =	twitterAuth['accessTokenSecret'	])
 
-# hashtags to search
-hashtags = ["feminism",]
-# search for tweets using sexist hashtags
-for hashtag in hashtags:
-	
-# identify the emotional intent of the tweet
-# if the tweet is retarded
-	# compare with other tweets by the user
-	# give the user a score based on their tweets
-	# put the user on the ignorance high scores list
+# initialise the sentiment analyser
+analyser = sentiment.sentimentAnalyser()
+
+# phrases to search
+goodThings = ["gamergate", "notyourshield"]
+badThings = ["feminism",]
+tenses = [goodThings, badThings]
+highScores = []
+scannedUsers = []
+scannedTweets = []
+debugging = True
+# search for tweets
+# for each tense in the tenses
+for index, tense in enumerate(tenses):
+	# for each term we have for that tense
+	for term in tense:
+		# search for a list of tweets
+		if debugging == True: print "[ ] Searching for tweets"
+		hashtagTweets = twApi.GetSearch(term=term)
+		# iterate through the tweets
+		for tweet in hashtagTweets:
+			# check that we haven't already scanned the user
+			if tweet.user.name not in scannedUsers and tweet.text not in scannedTweets:
+				scannedTweets.append(tweet.text)
+				# identify the emotional intent of the tweet
+				score = analyser.happyScore(tweet.text)
+				if debugging == True: print "[ ] " + tweet.text + " by " + tweet.user.name + " scored " + str(score)
+				# if the tweet is about negative about a good topic or positive about a bad topic
+				if index == 0 and score < 0 or index == 1 and score > 0:
+					if debugging == True: print "[+] "+ tweet.user.name +" may be retarded. Scanning user"
+					# the tweet is probably retarded.
+					# grab other tweets by the user
+					userTweets = twApi.GetUserTimeline(user_id = tweet.user.id)
+					# give the user a score based on their tweets
+					userScore = 0
+					numScanned = 0
+					# iterate through all their tweets
+					for userTweet in userTweets:
+						# for each tense
+						for index, tense in enumerate(tenses):
+							# for each term in the tense
+							for term in tense:
+								# if the user is tweeting about the term
+								if term in userTweet.text:
+									numScanned += 1
+									# identify the emotional intent of the tweet
+									score = analyser.happyScore(userTweet.text)
+									if debugging == True: print "\t[ ] " + userTweet.text + " by " + userTweet.user.name + " scored " + str(score)
+									# if the tweet is about negative about a good topic or positive about a bad topic
+									if index == 0 and score < 0 or index == 1 and score > 0:
+										# the tweet is probably retarded.
+										# add some points to their score
+										userScore += abs(score)
+					# put the user on the ignorance high scores list
+					if numScanned <= 0:
+						if debugging == True: print "Couldn't find any more relevant tweets by that user."
+					else:
+						# divide the tweets between the number of tweets scanned
+						userScore = userScore / numScanned
+						# make sure we aren't scanning the same person multiple times
+						scannedUsers.append(tweet.user.name)
+						# actually add them to the high scores
+						highScores.append([tweet.user.name, userScore])
+						#print off some debugging information
+						print tweet.user.name + " scores: " + str(userScore)
+						
