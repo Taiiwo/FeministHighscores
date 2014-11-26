@@ -1,8 +1,7 @@
-#   / __\__ _ __ ___ (_)_ __ (_)___| |_  / __\ | ___   ___| | _____ _ __ 
-#  / _\/ _ \ '_ ` _ \| | '_ \| / __| __|/__\// |/ _ \ / __| |/ / _ \ '__|
-# / / |  __/ | | | | | | | | | \__ \ |_/ \/  \ | (_) | (__|   <  __/ |   
-# \/   \___|_| |_| |_|_|_| |_|_|___/\__\_____/_|\___/ \___|_|\_\___|_|   
-
+# | __|__ _ __ (_)_ _ (_)__| |_| || (_)__ _| |_  ___ __ ___ _ _ ___ ___
+# | _/ -_) '  \| | ' \| (_-<  _| __ | / _` | ' \(_-</ _/ _ \ '_/ -_|_-<
+# |_|\___|_|_|_|_|_||_|_/__/\__|_||_|_\__, |_||_/__/\__\___/_| \___/__/
+#                                    # |___/                            
 # This is a project inspired by GGAutoBlocker that aims to identify radical
 # feminists and anti-gamergate supporters, and instead of maliciously and
 # oppressively adding them to an ambiguous blocklist conflictingly making
@@ -12,7 +11,6 @@
 # identification of such humorously idiotic thoughts.
 
 import twitter
-import nltk
 import json
 import sentiment
 
